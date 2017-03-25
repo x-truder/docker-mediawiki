@@ -46,13 +46,14 @@ RUN set -x && cd /usr/src/mediawiki \
       git submodule update --init --recursive skins/$name; \
     done
 
-ARG MEDIAWIKI_EXTENSIONS=CirrusSearch,Cite,CiteThisPage,CodeEditor,Elastica,Gadgets,ImageMap,InputBox,Interwiki,LocalisationUpdate,MobileFrontend,Nuke,ParserFunctions,PdfHandler,Popups,Renameuser,Scribunto,SyntaxHighlight_GeSHi,TitleBlacklist,VisualEditor,WikiEditor,Wikidata,Math,RelatedArticles
-ARG MEDIAWIKI_EXTERNAL_EXTENSIONS=NetworkAuth,LinkedWiki
+ARG MEDIAWIKI_EXTENSIONS=CirrusSearch,Cite,CiteThisPage,CodeEditor,Elastica,Gadgets,ImageMap,InputBox,Interwiki,LocalisationUpdate,MobileFrontend,Nuke,ParserFunctions,PdfHandler,Popups,Renameuser,Scribunto,SyntaxHighlight_GeSHi,TitleBlacklist,VisualEditor,WikiEditor,Wikidata,Math,RelatedArticles,SemanticMediaWiki
 
 RUN set -x && cd /usr/src/mediawiki \
     && for name in $(echo $MEDIAWIKI_EXTENSIONS | sed "s/,/ /g"); do \
          git submodule update --init --recursive extensions/$name; \
        done
+
+ARG MEDIAWIKI_EXTERNAL_EXTENSIONS=NetworkAuth,LinkedWiki,ReplaceText
 
 RUN set -x && cd /usr/src/mediawiki && \
     cd external_extensions && \
