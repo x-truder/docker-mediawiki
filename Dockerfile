@@ -1,7 +1,7 @@
 FROM php:5.6-apache
 MAINTAINER Jaka Hudoklin <jaka@x-truder.net>
 
-ARG MEDIAWIKI_VERSION=wmf/1.27.0-wmf.17
+ARG MEDIAWIKI_VERSION=wmf/1.29.0-wmf.17
 
 RUN set -x; \
     apt-get update \
