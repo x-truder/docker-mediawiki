@@ -53,13 +53,12 @@ RUN set -x && cd /usr/src/mediawiki \
          git submodule update --init --recursive extensions/$name; \
        done
 
-ARG MEDIAWIKI_EXTERNAL_EXTENSIONS=NetworkAuth,LinkedWiki,ReplaceText,SemanticMediaWiki
+ARG MEDIAWIKI_EXTERNAL_EXTENSIONS=NetworkAuth,LinkedWiki,ReplaceText
 
 RUN set -x && cd /usr/src/mediawiki && \
     cd external_extensions && \
     for name in $(echo $MEDIAWIKI_EXTERNAL_EXTENSIONS | sed "s/,/ /g"); do \
       git submodule update --init --recursive $name && \
-      rm -r ../extensions/$name || true && \
       ln -fs -t ../extensions $PWD/$name; \
     done
 
