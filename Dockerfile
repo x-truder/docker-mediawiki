@@ -59,6 +59,7 @@ RUN set -x && cd /usr/src/mediawiki && \
     cd external_extensions && \
     for name in $(echo $MEDIAWIKI_EXTERNAL_EXTENSIONS | sed "s/,/ /g"); do \
       git submodule update --init --recursive $name && \
+      rm -r ../extensions/$name || true && \
       ln -fs -t ../extensions $PWD/$name; \
     done
 
