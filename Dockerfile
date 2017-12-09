@@ -1,7 +1,7 @@
 FROM php:5.6-apache
 MAINTAINER Jaka Hudoklin <jaka@x-truder.net>
 
-ARG MEDIAWIKI_VERSION=wmf/1.29.0-wmf.17
+ARG MEDIAWIKI_VERSION=wmf/1.31.0-wmf.11
 
 RUN set -x; \
     apt-get update \
@@ -46,7 +46,7 @@ RUN set -x && cd /usr/src/mediawiki \
       git submodule update --init --recursive skins/$name; \
     done
 
-ARG MEDIAWIKI_EXTENSIONS=CirrusSearch,Cite,CiteThisPage,CodeEditor,Elastica,Gadgets,ImageMap,InputBox,Interwiki,LocalisationUpdate,MobileFrontend,Nuke,ParserFunctions,PdfHandler,Popups,Renameuser,Scribunto,SyntaxHighlight_GeSHi,TitleBlacklist,VisualEditor,WikiEditor,Wikidata,Math,RelatedArticles,Validator
+ARG MEDIAWIKI_EXTENSIONS=CirrusSearch,Cite,CiteThisPage,CodeEditor,Elastica,Gadgets,ImageMap,InputBox,Interwiki,LocalisationUpdate,MobileFrontend,Nuke,ParserFunctions,PdfHandler,Popups,Renameuser,Scribunto,SyntaxHighlight_GeSHi,TitleBlacklist,VisualEditor,WikiEditor,Wikidata,Math,RelatedArticles
 
 RUN set -x && cd /usr/src/mediawiki \
     && for name in $(echo $MEDIAWIKI_EXTENSIONS | sed "s/,/ /g"); do \
