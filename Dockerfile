@@ -39,7 +39,7 @@ COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]
 
-ARG MEDIAWIKI_SKINS=CologneBlue,Modern,MonoBook,Nostalgia,Vector,MinervaNeue
+ARG MEDIAWIKI_SKINS=CologneBlue,Modern,MonoBook,Nostalgia,Vector,MinervaNeue,Timeless
 
 RUN set -x; \
     for name in $(echo $MEDIAWIKI_SKINS | sed "s/,/ /g"); do \
