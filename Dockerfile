@@ -3,6 +3,8 @@ MAINTAINER Jaka Hudoklin <jaka@x-truder.net>
 
 ARG MEDIAWIKI_VERSION=wmf/1.31.0-wmf.11
 
+WORKDIR /usr/src/mediawiki
+
 RUN set -x; \
     apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -25,10 +27,8 @@ RUN a2enmod rewrite
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
 RUN set -x; \
-       mkdir -p /usr/src/mediawiki \
-    && cd /usr/src/mediawiki \
-    && git clone --depth 1 -b ${MEDIAWIKI_VERSION} https://github.com/wikimedia/mediawiki.git . \
-    && git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions.git external_extensions
+    git clone --depth 1 -b ${MEDIAWIKI_VERSION} https://github.com/wikimedia/mediawiki.git . && \
+    git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions.git external_extensions
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
@@ -41,28 +41,26 @@ CMD ["apache2-foreground"]
 
 ARG MEDIAWIKI_SKINS=CologneBlue,Modern,MonoBook,Nostalgia,Vector
 
-RUN set -x && cd /usr/src/mediawiki \
+RUN set -x; \
     for name in $(echo $MEDIAWIKI_SKINS | sed "s/,/ /g"); do \
       git submodule update --init --recursive skins/$name; \
     done
 
 ARG MEDIAWIKI_EXTENSIONS=CirrusSearch,Cite,CiteThisPage,CodeEditor,Elastica,Gadgets,ImageMap,InputBox,Interwiki,LocalisationUpdate,MobileFrontend,Nuke,ParserFunctions,PdfHandler,Popups,Renameuser,Scribunto,SyntaxHighlight_GeSHi,TitleBlacklist,VisualEditor,WikiEditor,Wikidata,Math,RelatedArticles
 
-RUN set -x && cd /usr/src/mediawiki \
-    && for name in $(echo $MEDIAWIKI_EXTENSIONS | sed "s/,/ /g"); do \
-         git submodule update --init --recursive extensions/$name; \
-       done
+RUN set -x; \
+    for name in $(echo $MEDIAWIKI_EXTENSIONS | sed "s/,/ /g"); do \
+      git submodule update --init --recursive extensions/$name; \
+    done
 
 ARG MEDIAWIKI_EXTERNAL_EXTENSIONS=NetworkAuth,LinkedWiki,ReplaceText
 
-RUN set -x && cd /usr/src/mediawiki && \
+RUN set -x; \
     cd external_extensions && \
     for name in $(echo $MEDIAWIKI_EXTERNAL_EXTENSIONS | sed "s/,/ /g"); do \
       git submodule update --init --recursive $name && \
       ln -fs -t ../extensions $PWD/$name; \
     done
 
-COPY composer.local.json /usr/src/mediawiki/composer.local.json
-RUN cd /usr/src/mediawiki && composer update --no-dev
-
-WORKDIR /usr/src/mediawiki
+COPY composer.local.json composer.local.json
+RUN composer update --no-dev
