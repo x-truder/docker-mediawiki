@@ -64,3 +64,4 @@ RUN set -x; \
 
 COPY composer.local.json composer.local.json
 RUN composer update --no-dev
+RUN cd extensions/Wikibase && composer install --no-dev
