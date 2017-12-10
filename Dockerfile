@@ -46,7 +46,7 @@ RUN set -x; \
       git submodule update --init --recursive skins/$name; \
     done
 
-ARG MEDIAWIKI_EXTENSIONS=CirrusSearch,Cite,CiteThisPage,CodeEditor,Elastica,Gadgets,ImageMap,InputBox,Interwiki,LocalisationUpdate,MobileFrontend,Nuke,ParserFunctions,PdfHandler,Popups,Renameuser,Scribunto,SyntaxHighlight_GeSHi,TitleBlacklist,VisualEditor,WikiEditor,Wikidata,Math,RelatedArticles
+ARG MEDIAWIKI_EXTENSIONS=CirrusSearch,Cite,CiteThisPage,CodeEditor,Elastica,Gadgets,ImageMap,InputBox,Interwiki,LocalisationUpdate,MobileFrontend,Nuke,ParserFunctions,PdfHandler,Popups,Renameuser,Scribunto,SyntaxHighlight_GeSHi,TitleBlacklist,VisualEditor,WikiEditor,Wikibase,Math,RelatedArticles,ArticlePlaceholder,PropertySuggester
 
 RUN set -x; \
     for name in $(echo $MEDIAWIKI_EXTENSIONS | sed "s/,/ /g"); do \
