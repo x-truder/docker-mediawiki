@@ -3,7 +3,7 @@ MAINTAINER Jaka Hudoklin <jaka@x-truder.net>
 
 ARG MEDIAWIKI_VERSION=wmf/1.31.0-wmf.11
 
-WORKDIR /usr/src/mediawiki
+WORKDIR /var/www/html
 
 RUN set -x; \
     apt-get update \
