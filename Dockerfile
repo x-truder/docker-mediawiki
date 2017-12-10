@@ -64,3 +64,5 @@ RUN set -x && cd /usr/src/mediawiki && \
 
 COPY composer.local.json /usr/src/mediawiki/composer.local.json
 RUN cd /usr/src/mediawiki && composer update --no-dev
+
+WORKDIR /usr/src/mediawiki
