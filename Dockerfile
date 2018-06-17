@@ -1,7 +1,7 @@
-FROM php:5.6-apache
+FROM php:7.1-apache
 MAINTAINER Jaka Hudoklin <jaka@x-truder.net>
 
-ARG MEDIAWIKI_VERSION=wmf/1.31.0-wmf.11
+ARG MEDIAWIKI_VERSION=wmf/1.32.0-wmf.8
 
 WORKDIR /var/www/html
 
@@ -9,7 +9,7 @@ RUN set -x; \
     apt-get update \
     && apt-get install -y --no-install-recommends \
         g++ \
-        libicu52 \
+        libicu57 \
         libicu-dev \
         libzip-dev \
         imagemagick \
