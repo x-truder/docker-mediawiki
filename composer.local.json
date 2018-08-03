@@ -6,9 +6,8 @@
         "merge-plugin": {
             "include": [
                 "extensions/*/composer.json",
-                "exeternal_extensions/*/composer.json",
-                "skins/*/composer.json",
-                "extensions/Wikibase/composer.json"
+                "external_extensions/*/composer.json",
+                "skins/*/composer.json"
             ]
         }
     }
