@@ -1,7 +1,7 @@
 FROM php:7.1-apache
 MAINTAINER Jaka Hudoklin <jaka@x-truder.net>
 
-ARG MEDIAWIKI_VERSION=wmf/1.32.0-wmf.8
+ARG MEDIAWIKI_VERSION=wmf/1.32.0-wmf.15
 
 WORKDIR /var/www/html
 

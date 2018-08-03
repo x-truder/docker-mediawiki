@@ -7,7 +7,8 @@
             "include": [
                 "extensions/*/composer.json",
                 "exeternal_extensions/*/composer.json",
-                "skins/*/composer.json"
+                "skins/*/composer.json",
+                "extensions/Wikibase/composer.json"
             ]
         }
     }
