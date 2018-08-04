@@ -65,4 +65,4 @@ RUN set -x; \
 COPY composer.local.json composer.local.json
 RUN composer update --no-dev
 
-RUN ln -s /var/www
+RUN ln -s /var/www/html w
