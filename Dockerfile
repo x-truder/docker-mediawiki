@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.2-apache
 MAINTAINER Jaka Hudoklin <jaka@x-truder.net>
 
 ARG MEDIAWIKI_VERSION=wmf/1.32.0-wmf.15
@@ -7,6 +7,11 @@ WORKDIR /var/www/html
 
 RUN set -x; \
     apt-get update \
+    && apt-get install -y gnupg \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && apt-get update \
     && apt-get install -y --no-install-recommends \
         g++ \
         libicu57 \
@@ -16,6 +21,8 @@ RUN set -x; \
         libldb-dev \
         libaprutil1-dev \
         git \
+        nodejs \
+        yarn \
     && ln -fs /usr/lib/x86_64-linux-gnu/libzip.so /usr/lib/ \
     && ln -fs /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/ \
     && docker-php-ext-install intl mysqli zip mbstring opcache fileinfo \
@@ -64,5 +71,7 @@ RUN set -x; \
 
 COPY composer.local.json composer.local.json
 RUN composer update --no-dev
+
+RUN cd extensions/LinkedWiki && yarn install --production
 
 RUN ln -s /var/www/html w
