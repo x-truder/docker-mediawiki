@@ -37,15 +37,6 @@ RUN set -x; \
     git clone --depth 1 -b ${MEDIAWIKI_VERSION} https://github.com/wikimedia/mediawiki.git . && \
     git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions.git external_extensions
 
-COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
-
-COPY apache/mediawiki.conf /etc/apache2/
-RUN echo "Include /etc/apache2/mediawiki.conf" >> /etc/apache2/apache2.conf
-
-COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["apache2-foreground"]
-
 ARG MEDIAWIKI_SKINS=CologneBlue,Modern,MonoBook,Nostalgia,Vector,MinervaNeue,Timeless
 
 RUN set -x; \
@@ -60,7 +51,7 @@ RUN set -x; \
       git submodule update --init --recursive extensions/$name; \
     done
 
-ARG MEDIAWIKI_EXTERNAL_EXTENSIONS=NetworkAuth,LinkedWiki,ReplaceText
+ARG MEDIAWIKI_EXTERNAL_EXTENSIONS=LinkedWiki,ReplaceText
 
 RUN set -x; \
     cd external_extensions && \
