@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "mediawiki.fullname" . }}
+data:
+  "CustomSettings.php": |
+    <?php
+    {{ .Values.customConfig | indent 4  }}
+    ?>

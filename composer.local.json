@@ -1,7 +1,4 @@
 {
-    "require": {
-        "mediawiki/semantic-media-wiki": "~2.5"
-    },
     "extra": {
         "merge-plugin": {
             "include": [

@@ -2,12 +2,6 @@
 
 set -e
 
-: ${MEDIAWIKI_SLEEP:=0}
-
-# Sleep because if --link was used, docker-compose, or similar
-# we need to give the database time to start up before we try to connect
-sleep $MEDIAWIKI_SLEEP
-
 : ${MEDIAWIKI_SITE_NAME:=MediaWiki}
 : ${MEDIAWIKI_SITE_LANG:=en}
 : ${MEDIAWIKI_ADMIN_USER:=admin}
@@ -121,6 +115,7 @@ if ! [ -e index.php -a -e includes/DefaultSettings.php ]; then
 fi
 
 : ${MEDIAWIKI_SHARED:=/data}
+: ${MEDIAWIKI_CONFIG:=/config}
 if [ -d "$MEDIAWIKI_SHARED" ]; then
     # If there is no LocalSettings.php but we have one under the shared
     # directory, symlink it
@@ -186,7 +181,7 @@ if [ ! -e "LocalSettings.php" -a ! -z "$MEDIAWIKI_SITE_SERVER" ]; then
     php maintenance/install.php \
         --confpath /var/www/html \
         --dbname "$MEDIAWIKI_DB_NAME" \
-        --dbschema "$MEDIAWIKI_DB_SCHEMA" \
+        --dbschema "mediawiki" \
         --dbport "$MEDIAWIKI_DB_PORT" \
         --dbserver "$MEDIAWIKI_DB_HOST" \
         --dbtype "$MEDIAWIKI_DB_TYPE" \
@@ -205,9 +200,9 @@ if [ ! -e "LocalSettings.php" -a ! -z "$MEDIAWIKI_SITE_SERVER" ]; then
     # so it can be restored if this container needs to be reinitiated
     if [ -d "$MEDIAWIKI_SHARED" ]; then
         # Append inclusion of /data/CustomSettings.php
-        if [ -e "$MEDIAWIKI_SHARED/CustomSettings.php" ]; then
-            chown www-data: "$MEDIAWIKI_SHARED/CustomSettings.php"
-            echo "include('$MEDIAWIKI_SHARED/CustomSettings.php');" >> LocalSettings.php
+        if [ -e "$MEDIAWIKI_CONFIG/CustomSettings.php" ]; then
+            chown www-data: "$MEDIAWIKI_CONFIG/CustomSettings.php" || true
+            echo "include('$MEDIAWIKI_CONFIG/CustomSettings.php');" >> LocalSettings.php
         fi
 
         # Move generated LocalSettings.php to share volume
